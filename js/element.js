@@ -7,8 +7,9 @@ let result = document.querySelector(`.result > div`);
 let rockDiv = document.getElementById(`r`);
 let paperDiv = document.getElementById(`p`);
 let sissorsDiv = document.getElementById(`s`);
-let inputForm = document.querySelector(`.form-board > input`);
-let btnForm = document.querySelector(`.form-board > .btn`);
+let inputForm = document.querySelector(`#name`);
+let btnForm = document.querySelector(`.form-board > .btnForm`);
+let divForm = document.querySelector(`.forma`);
 let userName = document.getElementById(`user-label`);
 let myselfForm = document.querySelector(`.form-board`);
 
@@ -24,5 +25,6 @@ export const Elements = {
   inputForm,
   btnForm,
   userName,
-  myselfForm
+  myselfForm,
+  divForm
 };

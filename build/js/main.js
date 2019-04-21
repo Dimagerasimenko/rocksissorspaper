@@ -9,8 +9,9 @@
   var rockDiv = document.getElementById("r");
   var paperDiv = document.getElementById("p");
   var sissorsDiv = document.getElementById("s");
-  var inputForm = document.querySelector(".form-board > input");
-  var btnForm = document.querySelector(".form-board > .btn");
+  var inputForm = document.querySelector("#name");
+  var btnForm = document.querySelector(".form-board > .btnForm");
+  var divForm = document.querySelector(".forma");
   var userName = document.getElementById("user-label");
   var myselfForm = document.querySelector(".form-board");
   var Elements = {
@@ -25,7 +26,8 @@
     inputForm: inputForm,
     btnForm: btnForm,
     userName: userName,
-    myselfForm: myselfForm
+    myselfForm: myselfForm,
+    divForm: divForm
   };
 
   var choices = ["r", "p", "s"];
@@ -114,6 +116,10 @@
     });
     Elements.sissorsDiv.addEventListener("click", function () {
       return game("s");
+    });
+    Elements.inputForm.addEventListener("input", function () {
+      Elements.divForm.style.display = "none";
+      Elements.userName.textContent = Elements.inputForm.value;
     });
   };
 
