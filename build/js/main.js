@@ -1,35 +1,6 @@
 (function () {
   'use strict';
 
-  var userScore = 0;
-  var computerScore = 0;
-  var computerScoreSpan = document.getElementById("computer-score");
-  var userScoreSpan = document.getElementById("user-score");
-  var result = document.querySelector(".result > div");
-  var rockDiv = document.getElementById("r");
-  var paperDiv = document.getElementById("p");
-  var sissorsDiv = document.getElementById("s");
-  var inputForm = document.querySelector("#name");
-  var btnForm = document.querySelector(".form-board > .btnForm");
-  var divForm = document.querySelector(".forma");
-  var userName = document.getElementById("user-label");
-  var myselfForm = document.querySelector(".form-board");
-  var Elements = {
-    userScore: userScore,
-    computerScore: computerScore,
-    computerScoreSpan: computerScoreSpan,
-    userScoreSpan: userScoreSpan,
-    result: result,
-    rockDiv: rockDiv,
-    paperDiv: paperDiv,
-    sissorsDiv: sissorsDiv,
-    inputForm: inputForm,
-    btnForm: btnForm,
-    userName: userName,
-    myselfForm: myselfForm,
-    divForm: divForm
-  };
-
   var choices = ["r", "p", "s"];
   var getComputerChoise = function getComputerChoise() {
     var randomNumber = Math.floor(Math.random() * 3);
@@ -44,43 +15,61 @@
       return "\u043D\u043E\u0436\u043D\u0438\u0446\u044B";
     }
   };
+  var render = function render(template) {
+    var wrapper = document.createElement("div");
+    wrapper.innerHTML = template;
+    return wrapper;
+  };
+  var mainContent = document.querySelector("#main");
+  var changeScreen = function changeScreen(element) {
+    mainContent.innerHTML = "";
+    mainContent.appendChild(element);
+  };
+
+  var gameTemplate = render("\n<div class=\"score-board\">\n<div class=\"timer\">\n<p></p>\n</div>\n    <div id=\"user-label\" class=\"score-board-badge score-board-badge-user\">\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C</div>\n    <div id=\"computer-label\" class=\"score-board-badge-computer score-board-badge\">\u041A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440</div>\n    <span id=\"user-score\" class=\"score-board-user\">0</span>:<span id=\"computer-score\" class=\"score-board-computer\">0</span>\n  </div>\n  <div class=\"result\">\n    <div class=\"result-title\">\n    <p>\u0418\u0433\u0440\u0430 \u043F\u043E\u043A\u0430 \u043D\u0435 \u043D\u0430\u0447\u0430\u043B\u0430\u0441\u044C.</p>\n  </div>\n  </div>\n  <div class=\"choices\">\n    <div class=\"choice rock\" id=\"r\" >\n    <img src=\"img/rock.svg\" alt=\"rock\" data-target=\"r\">\n    </div>\n    <div class=\"choice paper\" id=\"p\" >\n    <img src=\"img/paper.svg\" alt=\"paper\" data-target=\"p\">\n    </div>\n    <div class=\"choice scissors\" id=\"s\">\n    <img src=\"img/scissors.svg\" alt=\"scissors\"  data-target=\"s\">\n    </div>\n    </div>    \n");
+  var userScore = 0;
+  var computerScore = 0;
+  var computerScoreSpan = gameTemplate.querySelector(".score-board-computer");
+  var userScoreSpan = gameTemplate.querySelector(".score-board-user");
+  var result = gameTemplate.querySelector(".result > p");
 
   var win = function win(userChoice, computerChoice) {
     var smallUserWord = "\u0412\u044B".fontsize(3).sup();
     var smallCompWord = "\u041A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440".fontsize(3).sup();
     var userChoiceDiv = document.getElementById(userChoice);
+    userScore++;
+    userScoreSpan.innerHTML = userScore;
+    computerScoreSpan.innerHTML = computerScore;
+    result.innerHTML = "".concat(convertWord(userChoice)).concat(smallUserWord, " \u043F\u043E\u0431\u0435\u0434\u0438\u043B\u0438 ").concat(convertWord(computerChoice)).concat(smallCompWord, ". \u0412\u044B \u043F\u043E\u0431\u0435\u0434\u0438\u043B\u0438!");
     userChoiceDiv.classList.add("green-glow");
     setTimeout(function () {
       userChoiceDiv.classList.remove("green-glow");
     }, 1000);
-    Elements.userScore++;
-    Elements.userScoreSpan.textContent = Elements.userScore;
-    Elements.result.innerHTML = "".concat(convertWord(userChoice)).concat(smallUserWord, " \u043F\u043E\u0431\u0435\u0434\u0438\u043B\u0438 ").concat(convertWord(computerChoice)).concat(smallCompWord, ". \u0412\u044B \u043F\u043E\u0431\u0435\u0434\u0438\u043B\u0438!");
   };
 
   var lose = function lose(userChoice, computerChoice) {
     var smallUserWord = "\u0412\u044B".fontsize(3).sup();
     var smallCompWord = "\u041A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440".fontsize(3).sup();
     var userChoiceDiv = document.getElementById(userChoice);
+    computerScore++;
+    computerScoreSpan.innerHTML = computerScore;
+    result.innerHTML = "".concat(convertWord(userChoice), " ").concat(smallUserWord, " \u041F\u0440\u043E\u0438\u0433\u0440\u0430\u043B\u0438 ").concat(convertWord(computerChoice)).concat(smallCompWord, ". \u0412\u044B \u043F\u0440\u043E\u0438\u0433\u0440\u0430\u043B\u0438");
     userChoiceDiv.classList.add("red-glow");
     setTimeout(function () {
       userChoiceDiv.classList.remove("red-glow");
     }, 1000);
-    Elements.computerScore++;
-    Elements.computerScoreSpan.textContent = Elements.computerScore;
-    Elements.result.innerHTML = "".concat(convertWord(userChoice), " ").concat(smallUserWord, " \u041F\u0440\u043E\u0438\u0433\u0440\u0430\u043B\u0438 ").concat(convertWord(computerChoice)).concat(smallCompWord, ". \u0412\u044B \u043F\u0440\u043E\u0438\u0433\u0440\u0430\u043B\u0438");
   };
 
   var draw = function draw(userChoice, computerChoice) {
     var smallUserWord = "\u0412\u044B".fontsize(3).sup();
     var smallCompWord = "\u041A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440".fontsize(3).sup();
     var userChoiceDiv = document.getElementById(userChoice);
+    computerScoreSpan.innerHTML = computerScore;
+    result.innerHTML = "".concat(convertWord(userChoice), " ").concat(smallUserWord, " \u041D\u0438\u0447\u044C\u044F ").concat(convertWord(computerChoice), " ").concat(smallCompWord, ". \u0423 \u0432\u0430\u0441 \u043D\u0438\u0447\u044C\u044F");
     userChoiceDiv.classList.add("gray-glow");
     setTimeout(function () {
       userChoiceDiv.classList.remove("gray-glow");
     }, 1000);
-    Elements.computerScoreSpan.textContent = Elements.computerScore;
-    Elements.result.innerHTML = "".concat(convertWord(userChoice), " ").concat(smallUserWord, " \u041D\u0438\u0447\u044C\u044F ").concat(convertWord(computerChoice), " ").concat(smallCompWord, ". \u0423 \u0432\u0430\u0441 \u043D\u0438\u0447\u044C\u044F");
   };
 
   var game = function game(userChoice) {
@@ -107,23 +96,56 @@
     }
   };
 
-  var init = function init() {
-    Elements.rockDiv.addEventListener("click", function () {
-      return game("r");
-    });
-    Elements.paperDiv.addEventListener("click", function () {
-      return game("p");
-    });
-    Elements.sissorsDiv.addEventListener("click", function () {
-      return game("s");
-    });
-    Elements.inputForm.addEventListener("input", function () {
-      Elements.divForm.style.display = "none";
-      Elements.userName.textContent = Elements.inputForm.value;
-    });
+  var rockDiv = gameTemplate.querySelector(".rock");
+  var paperDiv = gameTemplate.querySelector(".paper");
+  var scissorsDiv = gameTemplate.querySelector(".scissors");
+  rockDiv.addEventListener("click", function () {
+    return game("r");
+  });
+  paperDiv.addEventListener("click", function () {
+    return game("p");
+  });
+  scissorsDiv.addEventListener("click", function () {
+    return game("s");
+  });
+  var timerS = gameTemplate.querySelector(".timer > p");
+  var minute = 60;
+
+  var timeCounter = function timeCounter() {
+    minute--;
+
+    if (minute >= 0) {
+      timerS.innerHTML = minute;
+    } else {
+      timerS.innerHTML = "\u0418\u0433\u0440\u0430 \u0437\u0430\u043A\u043E\u043D\u0447\u0435\u043D\u0430";
+    }
   };
 
-  init();
+  setInterval(timeCounter, 1000);
+
+  var formTemplate = render("\n  <h1 class=\"formH\">\u0423\u043A\u0430\u0436\u0438 \u0441\u0432\u043E\u0435 \u0438\u043C\u044F</h1>\n<div id=\"wrapper\">\n\t<form id=\"signin\" method=\"#\" action=\"#\">\n\t\t<input type=\"text\" id=\"user\" name=\"user\" placeholder=\"us\" />\n\t\t<button type=\"submit\" class=\"btn-form\" disabled >B</button>\t\t\n\t</form>\n</div>\n");
+  var inputForm = formTemplate.querySelector("form > input");
+  var btnForm = formTemplate.querySelector(".btn-form");
+  var userGameName = gameTemplate.querySelector(".score-board-badge-user");
+  inputForm.addEventListener("input", function () {
+    if (inputForm.value.length > 3) {
+      btnForm.removeAttribute("disabled");
+      btnForm.setAttribute("id", "color");
+      btnForm.style.backgroundColor = "red";
+      userGameName.innerHTML = inputForm.value;
+    }
+  });
+  btnForm.addEventListener("click", function () {
+    changeScreen(gameTemplate);
+  });
+
+  var introTemplate = render("<section class=\"intro\">\n<div class=\"intro-text\">\n  \u041A\u0430\u043C\u0435\u043D\u044C-\u043D\u043E\u0436\u043D\u0438\u0446\u044B-\u0431\u0443\u043C\u0430\u0433\u0430 \u2013 \u044D\u0442\u043E \u0434\u0440\u0435\u0432\u043D\u044F\u044F \u0438\u0433\u0440\u0430, \u0432\u043E\u0437\u043D\u0438\u043A\u0448\u0430\u044F \u0432 \u041A\u0438\u0442\u0430\u0435. \u0420\u0430\u043D\u044C\u0448\u0435 \u0432 \u043D\u0435\u0435 \u0438\u0433\u0440\u0430\u043B\u0438 \u0432\u043E\u0435\u043D\u0430\u0447\u0430\u043B\u044C\u043D\u0438\u043A\u0438 \u043F\u043E\u0437\u0434\u043D\u0435\u0439 \u0434\u0438\u043D\u0430\u0441\u0442\u0438\u0438 \u0425\u0430\u043D\u044C, \n  \u0430 \u0441\u0435\u0439\u0447\u0430\u0441 \u044D\u0442\u0430 \u0438\u0433\u0440\u0430 \u043B\u044E\u0431\u0438\u043C\u0430 \u043C\u043D\u043E\u0433\u0438\u043C\u0438 \u0448\u043A\u043E\u043B\u044C\u043D\u0438\u043A\u0430\u043C\u0438. \u0421 \u043F\u043E\u043C\u043E\u0449\u044C\u044E \u043D\u0435\u0435 \u043C\u043E\u0436\u043D\u043E \u0432\u044B\u0438\u0433\u0440\u0430\u0442\u044C \u0441\u043F\u043E\u0440, \u043F\u0440\u043E\u0432\u0435\u0441\u0442\u0438 \u0436\u0435\u0440\u0435\u0431\u044C\u0435\u0432\u043A\u0443 \u0438 \u043F\u0440\u043E\u0441\u0442\u043E \u0443\u0431\u0438\u0442\u044C \u0432\u0440\u0435\u043C\u044F.\n</div>\n<div class=\"intro-block\">\n  <button type=\"button\" class=\"intro-btn btn btn-out\">\u0418\u0433\u0440\u0430\u0442\u044C</button>\n</div>\n</section>");
+  var greetingButton = introTemplate.querySelector(".intro-btn");
+  greetingButton.addEventListener("click", function () {
+    changeScreen(formTemplate);
+  });
+
+  changeScreen(introTemplate);
 
 }());
 
