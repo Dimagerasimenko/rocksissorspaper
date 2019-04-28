@@ -5,7 +5,6 @@ let computerScore = 0;
 
 let computerScoreSpan = document.getElementById(`computer-score`);
 let userScoreSpan = document.getElementById(`user-score`);
-let result = document.querySelector(`.result > div`);
 let rockDiv = document.getElementById(`r`);
 let paperDiv = document.getElementById(`p`);
 let sissorsDiv = document.getElementById(`s`);
@@ -21,7 +20,6 @@ export const Elements = {
   computerScore,
   computerScoreSpan,
   userScoreSpan,
-  result,
   rockDiv,
   paperDiv,
   sissorsDiv,

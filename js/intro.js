@@ -2,6 +2,7 @@ import {changeScreen, render} from "./util";
 
 import formTemplate from "./formMain";
 
+
 const introTemplate = render(
     `<section class="intro">
 <div class="intro-text">

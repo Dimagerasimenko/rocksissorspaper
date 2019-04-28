@@ -191,3 +191,74 @@ transition: 300ms ease-out;
 transform: scaleY(1);
 }
 }
+
+.result-field {
+display: flex;
+justify-content: space-around;
+font-size: 24px;
+}
+
+.user-result  {
+background: white;
+display: flex;
+flex-direction: column;
+border-right: 2px dashed black;
+text-align: center;
+flex-grow: 1;
+}
+
+.computer-result {
+display: flex;
+background: navajowhite;
+flex-direction: column;
+text-align: center;
+flex-grow: 1;
+}
+
+.winner {
+background: green;
+text-align: center;
+font-size: 30px;
+}
+
+.help {
+background-color: lightgreen;
+color: black;
+}
+
+.help:hover
+ {
+background-color: #f6e640;
+}
+
+.help-cross:hover {
+color: red;
+font-size: 20px;
+}
+
+.helper {
+display: none;
+position: absolute;
+z-index: 1;
+top: -25px;
+bottom: -25px;
+left: -25px;
+right: -35px;
+background-color: lightgreen;
+color: black;
+}
+
+.help-show {
+display: block;
+}
+
+.help-off {
+display: none;}
+
+.help-cross {
+position: absolute;
+top: 0;
+right: 5px;
+font-size: 15px;
+}
+
