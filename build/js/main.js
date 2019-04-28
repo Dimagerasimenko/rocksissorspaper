@@ -203,6 +203,13 @@
     changeScreen(formTemplate);
   });
 
+  var currentDate = document.querySelector(".sad");
+  var timeLocal = function timeLocal() {
+    var timeD = new Date();
+    currentDate.innerHTML = "\u0427\u0430\u0441\u044B : ".concat(timeD.getHours(), "  \u041C\u0438\u043D : ").concat(timeD.getMinutes(), " \u0421\u0435\u043A : ").concat(timeD.getSeconds());
+  };
+
+  setInterval(timeLocal, 1000);
   changeScreen(introTemplate);
 
 }());
